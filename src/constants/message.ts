@@ -9,6 +9,9 @@ export const messageResponse = {
     idInvalid: 'id_invalid',
     dataInvalid: 'data_invalid',
   },
+  user: {
+    userExists: 'user_exists',
+  },
   auth: {
     userNotFound: 'user_not_found',
     password_wrong: 'password_wrong',
@@ -19,21 +22,5 @@ export const messageResponse = {
     notFound: 'group_not_found',
     missingData: 'missing_data',
     duplicate: 'duplicate_group',
-  },
-  payment: {
-    paymentTypeIdNotFound: 'payment_type_not_found',
-    bankNotFound: 'bank_not_found',
-    bankHasExist: 'bank_has_exist',
-  },
-  paymentTransaction: {
-    transactionHasUpdate: 'transaction_has_update',
-  },
-  banks: {
-    numberBanksMax: 'number_banks_max',
-  },
-  giftCode: {
-    cannotUse: 'cannot_use',
-    giftCodeHasUse: 'gift_code_has_use',
-    codeInvalid: 'gif_code_invalid',
   },
 };
