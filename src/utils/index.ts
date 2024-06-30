@@ -1,5 +1,5 @@
 export * from './helper';
-export function generateSlug(str) {
+export function generateSlug(str: string) {
   return str
     .normalize('NFD') // Chuẩn hóa Unicode
     .replace(/[\u0300-\u036f]/g, '') // Loại bỏ các dấu thanh
