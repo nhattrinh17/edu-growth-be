@@ -23,11 +23,4 @@ export class CreateUserDto {
 
   @ApiProperty({ name: 'status', description: 'Trạng thái' })
   status?: string;
-
-  // @IsString()
-  @ApiProperty({ name: 'code', description: 'Code' })
-  code?: string;
-
-  //   @ApiProperty({ name: 'avatar', description: 'Số điện thoại người dùng', required: true })
-  //   avatar: string;
 }

@@ -3,7 +3,8 @@ import { EduLevelService } from './edu-level.service';
 import { CreateEduLevelDto } from './dto/create-edu-level.dto';
 import { UpdateEduLevelDto } from './dto/update-edu-level.dto';
 import { BaseFilter, Pagination, PaginationDto } from 'src/custom-decorator';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Edu level')
 @Controller('edu-level')
 export class EduLevelController {
   constructor(private readonly eduLevelService: EduLevelService) {}

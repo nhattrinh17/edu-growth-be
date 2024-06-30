@@ -15,14 +15,10 @@ export class UsersService {
     private readonly helper: Helper,
   ) {}
 
-  async create(dto: CreateUserDto, checkCode?: boolean) {
+  async create(dto: CreateUserDto) {
     dto.username = dto.username.trim().toLowerCase();
     if (+dto.phone.split('')[0] == 0) dto.phone = dto.phone.slice(1);
-    // if (checkCode) {
-    //   const keyRedis = `create-account:code:${dto.phone}`;
-    //   const codeRedis = await this.cacheService.get(keyRedis);
-    //   if (codeRedis != dto.code) throw new Error('code_wrong');
-    // }
+
     const checkDuplicate = await this.userRepository.findOneByCondition({
       [Op.or]: [{ username: dto.username }, { phone: dto.phone }],
     });
@@ -53,6 +49,12 @@ export class UsersService {
 
   findOne(id: number) {
     return this.userRepository.findOneById(id, ['id', 'email', 'username', 'name', 'phone', 'status', 'avatar']);
+  }
+
+  findOneByEmailOrUsername(account: string) {
+    return this.userRepository.findOneByCondition({
+      [Op.or]: [{ username: account.toLocaleUpperCase() }, { email: account }],
+    });
   }
 
   async remove(id: number) {

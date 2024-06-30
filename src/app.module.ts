@@ -8,6 +8,11 @@ import { Environment } from './constants';
 import { UserModel } from './models';
 import { UsersModule } from './modules/users/users.module';
 import { SubjectModule } from './modules/subject/subject.module';
+import { EduLevelModule } from './modules/edu-level/edu-level.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './modules/auth/guards';
+import { PermissionGuard } from './modules/auth/guards/permission.guard';
 
 @Module({
   imports: [
@@ -39,9 +44,16 @@ import { SubjectModule } from './modules/subject/subject.module';
       },
     }),
     UsersModule,
+    AuthModule,
     SubjectModule,
+    EduLevelModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    //
+    AppService,
+    { provide: APP_GUARD, useClass: JwtAuthGuard },
+    { provide: APP_GUARD, useClass: PermissionGuard },
+  ],
 })
 export class AppModule {}

@@ -17,6 +17,12 @@ import { Helper } from 'src/utils';
     },
     Helper,
   ],
-  exports: [UsersService],
+  exports: [
+    UsersService,
+    {
+      provide: 'UserRepositoryInterface',
+      useClass: UserRepository,
+    },
+  ],
 })
 export class UsersModule {}
