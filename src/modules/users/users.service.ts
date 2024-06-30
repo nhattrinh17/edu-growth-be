@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserRepositoryInterface } from './interface/game-point.interface';
+import { UserRepositoryInterface } from './interface/users.interface';
 import { Op } from 'sequelize';
 import { messageResponse } from 'src/constants';
 import { Helper } from 'src/utils';

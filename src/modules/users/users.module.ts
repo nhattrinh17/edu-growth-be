@@ -3,7 +3,7 @@ import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UserModel } from 'src/models';
-import { UserRepository } from './repository/game-point.repository';
+import { UserRepository } from './repository/users.repository';
 import { Helper } from 'src/utils';
 
 @Module({
