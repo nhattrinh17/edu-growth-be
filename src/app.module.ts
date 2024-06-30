@@ -5,9 +5,17 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Dialect } from 'sequelize';
 import { Environment } from './constants';
+import { UserModel } from './models';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+      expandVariables: true,
+      cache: true,
+    }),
     SequelizeModule.forRoot({
       dialect: process.env.DATABASE_DIALECT as Dialect,
       host: process.env.MYSQL_HOST,
@@ -29,12 +37,7 @@ import { Environment } from './constants';
         console.log(log); // Để theo dõi log kết nối trong quá trình phát triển
       },
     }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-      expandVariables: true,
-      cache: true,
-    }),
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

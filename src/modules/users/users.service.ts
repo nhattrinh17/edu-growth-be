@@ -5,6 +5,7 @@ import { UserRepositoryInterface } from './interface/game-point.interface';
 import { Op } from 'sequelize';
 import { messageResponse } from 'src/constants';
 import { Helper } from 'src/utils';
+import { PaginationDto } from 'src/custom-decorator';
 
 @Injectable()
 export class UsersService {
@@ -32,36 +33,33 @@ export class UsersService {
     return this.userRepository.create({ ...dto });
   }
 
-  // async findAll(pagination: Pagination, search: string, status: string, phone: string, sort?: any) {
-  //   const filter: any = {};
-  //   if (search) filter[Op.or] = [{ username: { [Op.like]: `%${search.trim()}%` } }, { name: { [Op.like]: `%${search.trim()}%` } }];
-  //   if (status) filter.status = status;
-  //   if (phone) filter.phone = { [Op.like]: `%${phone.trim()}%` };
-  //   const promise1 = this.userModel.count({ where: filter });
-  //   const promise2 = this.userModel.findAll({
-  //     //
-  //     where: filter,
-  //     order: [sort ? [sort, 'DESC'] : ['id', 'DESC']],
-  //     offset: pagination.offset,
-  //     limit: pagination.limit,
-  //     attributes: ['id', 'username', 'name', 'phone', 'status', 'typeUser', 'createdAt'],
-  //   });
-  //   const [countDocument, data] = await Promise.all([promise1, promise2]);
-  //   return {
-  //     pagination: { limit: pagination.limit, page: pagination.page, total: countDocument },
-  //     data,
-  //   };
-  // }
+  async findAll(pagination: PaginationDto, search: string, status: string, phone: string, sort?: any) {
+    const filter: any = {};
+    if (search) filter[Op.or] = [{ username: { [Op.like]: `%${search.trim()}%` } }, { name: { [Op.like]: `%${search.trim()}%` } }];
+    if (status) filter.status = status;
+    if (phone) filter.phone = { [Op.like]: `%${phone.trim()}%` };
+
+    return this.userRepository.findAll(
+      //
+      filter,
+      {
+        sort,
+        offset: pagination.offset,
+        limit: pagination.limit,
+        attributes: ['id', 'username', 'name', 'phone', 'status', 'typeUser', 'createdAt'],
+      },
+    );
+  }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return this.userRepository.findOneById(id, ['id', 'email', 'username', 'name', 'phone', 'status', 'avatar']);
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    const checkUserExit = await this.userRepository.count({ id: id });
+    if (checkUserExit) {
+      return this.userRepository.softDelete(id);
+    }
+    throw new Error(messageResponse.user.userDoseNotExists);
   }
 }

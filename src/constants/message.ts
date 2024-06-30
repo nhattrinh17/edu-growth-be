@@ -11,6 +11,7 @@ export const messageResponse = {
   },
   user: {
     userExists: 'user_exists',
+    userDoseNotExists: 'user_dose_not_exists',
   },
   auth: {
     userNotFound: 'user_not_found',
