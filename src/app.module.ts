@@ -13,6 +13,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/guards';
 import { PermissionGuard } from './modules/auth/guards/permission.guard';
+import { LocationModule } from './modules/location/location.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { PermissionGuard } from './modules/auth/guards/permission.guard';
     AuthModule,
     SubjectModule,
     EduLevelModule,
+    LocationModule,
   ],
   controllers: [AppController],
   providers: [

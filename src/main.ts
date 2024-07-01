@@ -1,10 +1,7 @@
 import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
+import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 
 import fastifyCsrf from '@fastify/csrf-protection';
 import helmet from 'helmet';
@@ -17,11 +14,7 @@ import { setupSwagger } from './setup-swagger';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter(),
-    { cors: true },
-  );
+  const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { cors: true });
   validateEnvironmentVars();
   // app.enable('trust proxy');// only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(helmet());
@@ -32,7 +25,7 @@ async function bootstrap() {
   //   origin: `https://${configService.get<string>('DOMAIN')}`,
   // });
 
-  app.register(fastifyCsrf, { cookieOpts: { signed: true } } as any);
+  // app.register(fastifyCsrf, { cookieOpts: { signed: true } } as any);
 
   app.enableVersioning();
   // const reflector = app.get(Reflector);

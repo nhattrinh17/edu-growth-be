@@ -35,8 +35,8 @@ export class EduLevelService {
   }
 
   async remove(id: number) {
-    const subject = await this.eduLevelRepository.count({ id: id });
-    if (!subject) throw new Error(messageResponse.system.idInvalid);
+    const eduLevel = await this.eduLevelRepository.count({ id: id });
+    if (!eduLevel) throw new Error(messageResponse.system.idInvalid);
     return this.eduLevelRepository.permanentlyDelete(id);
   }
 }
