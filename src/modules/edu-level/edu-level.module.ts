@@ -15,6 +15,12 @@ import { EduLevelRepository } from './repository/edu-level.repository';
       useClass: EduLevelRepository,
     },
   ],
-  exports: [EduLevelService],
+  exports: [
+    EduLevelService,
+    {
+      provide: 'EduLevelRepositoryInterface',
+      useClass: EduLevelRepository,
+    },
+  ],
 })
 export class EduLevelModule {}

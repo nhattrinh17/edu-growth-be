@@ -15,6 +15,12 @@ import { SubjectRepository } from './repository/subject.repository';
       useClass: SubjectRepository,
     },
   ],
-  exports: [SubjectService],
+  exports: [
+    SubjectService,
+    {
+      provide: 'SubjectRepositoryInterface',
+      useClass: SubjectRepository,
+    },
+  ],
 })
 export class SubjectModule {}

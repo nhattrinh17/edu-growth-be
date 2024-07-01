@@ -14,6 +14,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './modules/auth/guards';
 import { PermissionGuard } from './modules/auth/guards/permission.guard';
 import { LocationModule } from './modules/location/location.module';
+import { ClassModule } from './modules/class/class.module';
 
 @Module({
   imports: [
@@ -49,6 +50,7 @@ import { LocationModule } from './modules/location/location.module';
     SubjectModule,
     EduLevelModule,
     LocationModule,
+    ClassModule,
   ],
   controllers: [AppController],
   providers: [

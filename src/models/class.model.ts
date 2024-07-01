@@ -1,6 +1,6 @@
 import { BeforeCount, BeforeFind, BeforeSave, BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
-import { LocationModel, SubjectModel, addConditionNotDelete } from '.';
+import { EduLevelModel, LocationModel, SubjectModel, UserModel, addConditionNotDelete } from '.';
 
 @Table({
   tableName: 'Classes',
@@ -25,11 +25,21 @@ export class ClassModel extends Model {
   @BelongsTo(() => SubjectModel)
   subject: SubjectModel;
 
+  @ForeignKey(() => EduLevelModel)
+  @Column({
+    type: DataType.INTEGER,
+  })
+  eduLevelId: number;
+
+  @BelongsTo(() => EduLevelModel)
+  eduLevel: EduLevelModel;
+
   @Column({
     type: DataType.STRING,
   })
   class: string;
 
+  @ForeignKey(() => LocationModel)
   @Column({
     type: DataType.INTEGER,
   })
@@ -90,6 +100,15 @@ export class ClassModel extends Model {
     comment: 'Thông tin bổ sung',
   })
   receivingFee: number;
+
+  @ForeignKey(() => UserModel)
+  @Column({
+    type: DataType.INTEGER,
+  })
+  userReceiverId: number;
+
+  @BelongsTo(() => UserModel)
+  userReceiver: UserModel;
 
   @Column({ type: DataType.BOOLEAN, defaultValue: false })
   isDeleted: boolean;

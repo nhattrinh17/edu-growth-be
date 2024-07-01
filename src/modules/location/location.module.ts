@@ -15,6 +15,12 @@ import { LocationRepository } from './repository/location.repository';
       useClass: LocationRepository,
     },
   ],
-  exports: [LocationService],
+  exports: [
+    LocationService,
+    {
+      provide: 'LocationRepositoryInterface',
+      useClass: LocationRepository,
+    },
+  ],
 })
 export class LocationModule {}
