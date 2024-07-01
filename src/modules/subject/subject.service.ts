@@ -19,7 +19,7 @@ export class SubjectService {
     const slug = generateSlug(dto.name);
     const checkExit = await this.subjectRepository.count({ slug: slug });
     if (checkExit) throw new Error(messageResponse.system.duplicateData);
-    return this.subjectRepository.create(dto);
+    return this.subjectRepository.create({ ...dto, slug });
   }
 
   findAll(pagination: PaginationDto, search: string) {
@@ -27,6 +27,7 @@ export class SubjectService {
     if (search) filter.name = { [Op.like]: search };
     return this.subjectRepository.findAll(filter, {
       ...pagination,
+      projection: ['id', 'name', 'description', 'slug', 'createdAt'],
     });
   }
 

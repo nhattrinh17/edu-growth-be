@@ -1,9 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { SubjectService } from './subject.service';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
-import { BaseFilter, Pagination, PaginationDto } from 'src/custom-decorator';
+import { ApiOperationCustom, BaseFilter, Pagination, PaginationDto } from 'src/custom-decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from '../auth/decorators';
 
 @ApiTags('Subject')
 @Controller('subject')
@@ -11,10 +12,16 @@ export class SubjectController {
   constructor(private readonly subjectService: SubjectService) {}
 
   @Post()
-  create(@Body() createSubjectDto: CreateSubjectDto) {
-    return this.subjectService.create(createSubjectDto);
+  @ApiOperationCustom('Subject', 'post')
+  async create(@Body() createSubjectDto: CreateSubjectDto) {
+    try {
+      return await this.subjectService.create(createSubjectDto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
+  @Public()
   @Get()
   @BaseFilter()
   findAll(@Pagination() pagination: PaginationDto, @Query('search') search: string) {
@@ -27,7 +34,11 @@ export class SubjectController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.subjectService.remove(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      return await this.subjectService.remove(+id);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 }

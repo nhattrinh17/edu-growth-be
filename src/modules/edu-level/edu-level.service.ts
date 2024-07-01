@@ -16,10 +16,10 @@ export class EduLevelService {
 
   async create(dto: CreateEduLevelDto) {
     if (!dto.name) throw new Error(messageResponse.system.missingData);
-    const slug = generateSlug(dto.description);
+    const slug = generateSlug(dto.name);
     const checkExit = await this.eduLevelRepository.count({ slug });
     if (checkExit) throw new Error(messageResponse.system.duplicateData);
-    return this.eduLevelRepository.create(dto);
+    return this.eduLevelRepository.create({ ...dto, slug });
   }
 
   findAll(pagination: PaginationDto, search: string) {
