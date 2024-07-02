@@ -1,11 +1,4 @@
-import {
-  BeforeCount,
-  BeforeFind,
-  BeforeSave,
-  Column,
-  Model,
-  Table,
-} from 'sequelize-typescript';
+import { BeforeCount, BeforeFind, BeforeSave, Column, Model, Table } from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
 import { Status, TypeUser } from 'src/constants';
 import { addConditionNotDelete } from '.';
@@ -52,7 +45,7 @@ export class UserModel extends Model {
   @Column({ type: DataType.STRING })
   avatar: string;
 
-  @Column({ type: DataType.STRING, defaultValue: TypeUser.Normal })
+  @Column({ type: DataType.STRING, defaultValue: TypeUser.Tutor })
   typeUser: string;
 
   @Column({ type: DataType.BOOLEAN, defaultValue: true })

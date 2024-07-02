@@ -35,6 +35,10 @@ export class SubjectService {
     return this.subjectRepository.findOneById(id);
   }
 
+  count(condition: object) {
+    return this.subjectRepository.count(condition);
+  }
+
   async remove(id: number) {
     const subject = await this.subjectRepository.count({ id: id });
     if (!subject) throw new Error(messageResponse.system.idInvalid);

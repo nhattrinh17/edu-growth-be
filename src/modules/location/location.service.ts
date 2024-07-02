@@ -43,6 +43,10 @@ export class LocationService {
     return this.locationRepository.findByIdAndUpdate(id, { ...dto, slug });
   }
 
+  count(condition: object) {
+    return this.locationRepository.count(condition);
+  }
+
   async remove(id: number) {
     const location = await this.locationRepository.count({ id: id });
     if (!location) throw new Error(messageResponse.system.idInvalid);

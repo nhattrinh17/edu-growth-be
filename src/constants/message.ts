@@ -24,4 +24,7 @@ export const messageResponse = {
     missingData: 'missing_data',
     duplicate: 'duplicate_group',
   },
+  class: {
+    classHasReceive: 'class_has_receive',
+  },
 };

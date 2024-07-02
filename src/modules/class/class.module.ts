@@ -10,6 +10,9 @@ import { SubjectService } from '../subject/subject.service';
 import { LocationModule } from '../location/location.module';
 import { LocationService } from '../location/location.service';
 import { ClassRepository } from './repository/class.repository';
+import { UsersModule } from '../users/users.module';
+import { UsersService } from '../users/users.service';
+import { Helper } from 'src/utils';
 
 @Module({
   imports: [
@@ -18,6 +21,7 @@ import { ClassRepository } from './repository/class.repository';
     SubjectModule,
     EduLevelModule,
     LocationModule,
+    UsersModule,
   ],
   controllers: [ClassController],
   providers: [
@@ -31,6 +35,8 @@ import { ClassRepository } from './repository/class.repository';
     EduLevelService,
     SubjectService,
     LocationService,
+    UsersService,
+    Helper,
   ],
 })
 export class ClassModule {}

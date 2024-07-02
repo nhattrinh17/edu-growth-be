@@ -1,6 +1,7 @@
 import { BeforeCount, BeforeFind, BeforeSave, BelongsTo, Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { DataType } from 'sequelize-typescript';
 import { EduLevelModel, LocationModel, SubjectModel, UserModel, addConditionNotDelete } from '.';
+import { StatusClass } from 'src/constants';
 
 @Table({
   tableName: 'Classes',
@@ -13,6 +14,7 @@ export class ClassModel extends Model {
   @Column({
     type: DataType.INTEGER,
     comment: 'Trạng thái lớp',
+    defaultValue: StatusClass.stillEmpty,
   })
   statusClass: number;
 
@@ -57,6 +59,11 @@ export class ClassModel extends Model {
     type: DataType.STRING,
   })
   locationReal: string;
+
+  @Column({
+    type: DataType.STRING,
+  })
+  parentNumber: string;
 
   @Column({
     type: DataType.INTEGER,

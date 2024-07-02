@@ -34,6 +34,10 @@ export class EduLevelService {
     return this.eduLevelRepository.findOneById(id);
   }
 
+  count(condition: object) {
+    return this.eduLevelRepository.count(condition);
+  }
+
   async remove(id: number) {
     const eduLevel = await this.eduLevelRepository.count({ id: id });
     if (!eduLevel) throw new Error(messageResponse.system.idInvalid);
