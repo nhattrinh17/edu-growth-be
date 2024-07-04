@@ -24,7 +24,18 @@ export abstract class BaseRepositoryAbstract<T extends Model> implements BaseRep
     });
   }
 
-  async findAll(condition: WhereOptions<T>, options?: any): Promise<FindAllResponse<T>> {
+  async findAll(
+    condition: WhereOptions<T>,
+    options?: {
+      projection: string[];
+      sort: string;
+      typeSort: string;
+      page: number;
+      offset: number;
+      limit: number;
+      include: any[];
+    },
+  ): Promise<FindAllResponse<T>> {
     const [count, items] = await Promise.all([
       //
       this.model.count({ where: condition }),

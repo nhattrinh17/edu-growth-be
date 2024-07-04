@@ -1,6 +1,6 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { ApiOperationCustom } from 'src/custom-decorator';
+import { ApiOperationCustom, UserDataToken, UserDataTokenDto } from 'src/custom-decorator';
 import { AuthService } from './auth.service';
 import { Public } from './decorators';
 import { LoginDto, RefreshTokenDto } from './dto/create-auth.dto';
@@ -22,6 +22,12 @@ export class AuthController {
   @ApiOperationCustom('Login', 'post')
   loginCMS(@Body() dto: LoginDto) {
     return this.authService.loginCMS(dto);
+  }
+
+  @Get('userInfo')
+  @ApiOperationCustom('Login', 'post')
+  userInfo(@UserDataToken() user: UserDataTokenDto) {
+    return this.authService.getUserById(user.id);
   }
 
   @Public()

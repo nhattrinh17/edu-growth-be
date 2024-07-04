@@ -35,14 +35,14 @@ export class UsersService {
     if (status) filter.status = status;
     if (phone) filter.phone = { [Op.like]: `%${phone.trim()}%` };
 
+    console.log('🚀 ~ UsersService ~ findAll ~ filter:', filter);
     return this.userRepository.findAll(
       //
       filter,
       {
         sort,
-        offset: pagination.offset,
-        limit: pagination.limit,
-        attributes: ['id', 'username', 'name', 'phone', 'status', 'typeUser', 'createdAt'],
+        ...pagination,
+        projection: ['id', 'email', 'username', 'name', 'phone', 'status', 'typeUser', 'createdAt'],
       },
     );
   }

@@ -1,7 +1,7 @@
 import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
 export interface UserDataTokenDto {
-  id: string;
+  id: number;
   tenantId: string;
   email: string;
 }

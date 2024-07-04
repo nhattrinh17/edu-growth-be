@@ -7,7 +7,18 @@ export interface BaseRepositoryInterface<T> {
 
   findOneByCondition(condition?: object, projection?: string[]): Promise<T>;
 
-  findAll(condition: object, options?: object): Promise<FindAllResponse<T>>;
+  findAll(
+    condition: object,
+    options?: {
+      page: number;
+      offset: number;
+      limit: number;
+      projection?: string[];
+      sort?: string;
+      typeSort?: string;
+      include?: any[];
+    },
+  ): Promise<FindAllResponse<T>>;
 
   findOneAndUpdate(condition: object, dto: Partial<T>): Promise<T>;
 

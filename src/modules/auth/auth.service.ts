@@ -7,7 +7,15 @@ import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly helper: Helper, private readonly jwtService: JwtService, private readonly userService: UsersService) {}
+  constructor(
+    private readonly helper: Helper,
+    private readonly jwtService: JwtService,
+    private readonly userService: UsersService,
+  ) {}
+
+  getUserById(id: number) {
+    return this.userService.findOne(id);
+  }
 
   generateCode(length: number): string {
     const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
