@@ -39,6 +39,15 @@ export class SubjectService {
     return this.subjectRepository.count(condition);
   }
 
+  async update(id: number, dto: UpdateSubjectDto) {
+    const locationById = await this.findOne(id);
+    if (!locationById) throw new Error(messageResponse.system.idInvalid);
+    const slug = generateSlug(dto.name);
+    const checkExit = await this.subjectRepository.count({ slug, id: { [Op.ne]: id } });
+    if (checkExit) throw new Error(messageResponse.system.duplicateData);
+    return this.subjectRepository.findByIdAndUpdate(id, { ...dto, slug });
+  }
+
   async remove(id: number) {
     const subject = await this.subjectRepository.count({ id: id });
     if (!subject) throw new Error(messageResponse.system.idInvalid);

@@ -33,6 +33,15 @@ export class SubjectController {
     return this.subjectService.findOne(+id);
   }
 
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() dto: UpdateSubjectDto) {
+    try {
+      return await this.subjectService.update(+id, dto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   @Delete(':id')
   async remove(@Param('id') id: string) {
     try {
