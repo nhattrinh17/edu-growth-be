@@ -104,7 +104,7 @@ export class ClassModel extends Model {
 
   @Column({
     type: DataType.SMALLINT,
-    comment: 'Thông tin bổ sung',
+    comment: 'Phí nhận lớp',
   })
   receivingFee: number;
 
