@@ -27,6 +27,7 @@ export class LocationService {
     if (search) filter.province = { [Op.like]: search };
     return this.locationRepository.findAll(filter, {
       ...pagination,
+      projection: ['id', 'province', 'district', 'createdAt'],
     });
   }
 

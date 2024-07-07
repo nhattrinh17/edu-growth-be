@@ -27,6 +27,7 @@ export class EduLevelService {
     if (search) filter.name = { [Op.like]: search };
     return this.eduLevelRepository.findAll(filter, {
       ...pagination,
+      projection: ['id', 'name', 'description', 'createdAt'],
     });
   }
 
@@ -36,6 +37,15 @@ export class EduLevelService {
 
   count(condition: object) {
     return this.eduLevelRepository.count(condition);
+  }
+
+  async update(id: number, dto: UpdateEduLevelDto) {
+    const locationById = await this.findOne(id);
+    if (!locationById) throw new Error(messageResponse.system.idInvalid);
+    const slug = generateSlug(dto.name);
+    const checkExit = await this.eduLevelRepository.count({ slug, id: { [Op.ne]: id } });
+    if (checkExit) throw new Error(messageResponse.system.duplicateData);
+    return this.eduLevelRepository.findByIdAndUpdate(id, { ...dto, slug });
   }
 
   async remove(id: number) {

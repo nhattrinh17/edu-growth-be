@@ -58,13 +58,14 @@ export class ClassService {
 
   findAllCMS(pagination: PaginationDto, statusClass: number, subjectId: number[], eduLevelId: number[], require: number[], locationId: number[]) {
     const filter: any = {};
-    if (statusClass) filter.statusClass = statusClass;
+    if (statusClass >= 0) filter.statusClass = statusClass;
     if (subjectId) filter.subjectId = { [Op.in]: subjectId };
     if (eduLevelId) filter.eduLevelId = { [Op.in]: eduLevelId };
     if (require) filter.require = { [Op.in]: require };
     if (locationId) filter.locationId = { [Op.in]: locationId };
     return this.classRepository.findAll(filter, {
       ...pagination,
+      projection: ['id', 'statusClass', 'class', 'locationNear', 'locationReal', 'parentNumber', 'price', 'numberSessions', 'require', 'timeLearn', 'genderStudent', 'studentStatus', 'moreInfoStudent', 'receivingFee'],
       include: [
         {
           model: UserModel,

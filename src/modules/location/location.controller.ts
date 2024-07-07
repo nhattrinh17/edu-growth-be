@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, HttpException, HttpStatus } from '@nestjs/common';
 import { LocationService } from './location.service';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
@@ -14,8 +14,12 @@ export class LocationController {
 
   @Post()
   @ApiOperationCustom('Location', 'post')
-  create(@Body() createLocationDto: CreateLocationDto) {
-    return this.locationService.create(createLocationDto);
+  async create(@Body() createLocationDto: CreateLocationDto) {
+    try {
+      return await this.locationService.create(createLocationDto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Get()
@@ -32,8 +36,12 @@ export class LocationController {
 
   @Patch(':id')
   @ApiOperationCustom('Location', 'patch')
-  update(@Param('id') id: string, @Body() updateLocationDto: UpdateLocationDto) {
-    return this.locationService.update(+id, updateLocationDto);
+  async update(@Param('id') id: string, @Body() updateLocationDto: UpdateLocationDto) {
+    try {
+      return await this.locationService.update(+id, updateLocationDto);
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
   }
 
   @Delete(':id')
