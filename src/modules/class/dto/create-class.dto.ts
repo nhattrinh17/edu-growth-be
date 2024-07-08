@@ -3,18 +3,15 @@ import { IsNumber } from 'class-validator';
 import { Gender } from 'src/constants';
 
 export class CreateClassDto {
-  @IsNumber()
   @ApiProperty({ name: 'subjectId', type: Number, description: 'Id Môn học' })
   subjectId: number;
 
-  @IsNumber()
   @ApiProperty({ name: 'eduLevelId', type: Number, description: 'Id Cấp học' })
   eduLevelId: number;
 
   @ApiProperty({ name: 'class', type: String, description: 'Lớp học' })
   class: string;
 
-  @IsNumber()
   @ApiProperty({ name: 'locationId', type: Number, description: 'Id địa điểm' })
   locationId: number;
 

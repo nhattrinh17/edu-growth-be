@@ -87,9 +87,15 @@ export class ClassController {
     return this.classService.findAllCMS(pagination, statusClass, subjectId, eduLevelId, require, locationId);
   }
 
+  @Public()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.classService.findOne(+id);
+  }
+
+  @Get(':id/cms')
+  findOneCMS(@Param('id') id: string) {
+    return this.classService.findOneForCMS(+id);
   }
 
   @Patch(':id')

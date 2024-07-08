@@ -27,9 +27,10 @@ export const StatusClass = {
 };
 
 export const TypeRequireClass = {
-  maleStudent: 0,
-  femaleStudent: 1,
-  lecturers: 2,
+  student: 0,
+  maleStudent: 1,
+  femaleStudent: 2,
+  lecturers: 3,
 };
 
 export const GenderStudent = {

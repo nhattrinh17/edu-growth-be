@@ -32,6 +32,7 @@ export class ClassService {
     ]);
 
     if (checkDataValid.includes(0)) throw new Error(messageResponse.system.dataInvalid);
+    console.log('🚀 ~ ClassService ~ create ~ dto:', dto);
     return this.classRepository.create(dto);
   }
 
@@ -65,7 +66,7 @@ export class ClassService {
     if (locationId) filter.locationId = { [Op.in]: locationId };
     return this.classRepository.findAll(filter, {
       ...pagination,
-      projection: ['id', 'statusClass', 'class', 'locationNear', 'locationReal', 'parentNumber', 'price', 'numberSessions', 'require', 'timeLearn', 'genderStudent', 'studentStatus', 'moreInfoStudent', 'receivingFee'],
+      projection: ['id', 'statusClass', 'class', 'parentNumber', 'price', 'genderStudent', 'receivingFee'],
       include: [
         {
           model: UserModel,
@@ -92,6 +93,28 @@ export class ClassService {
         {
           model: SubjectModel,
           as: 'subject',
+          attributes: ['id', 'name'], // Chỉ lấy ra id, username và email từ bảng user
+        },
+      ],
+    });
+  }
+
+  findOneForCMS(id: number) {
+    return this.classRepository.findOneById(id, ['id', 'statusClass', 'class', 'locationNear', 'locationReal', 'subjectId', 'subjectId', 'eduLevelId', 'locationId', 'price', 'numberSessions', 'require', 'timeLearn', 'genderStudent', 'studentStatus', 'moreInfoStudent', 'receivingFee'], {
+      include: [
+        {
+          model: UserModel,
+          as: 'userReceiver',
+          attributes: ['id', 'username', 'email'], // Chỉ lấy ra id, username và email từ bảng user
+        },
+        {
+          model: SubjectModel,
+          as: 'subject',
+          attributes: ['id', 'name'], // Chỉ lấy ra id, username và email từ bảng user
+        },
+        {
+          model: EduLevelModel,
+          as: 'eduLevel',
           attributes: ['id', 'name'], // Chỉ lấy ra id, username và email từ bảng user
         },
       ],
@@ -139,8 +162,7 @@ export class ClassService {
   ) {
     const classById = await this.classRepository.findOneById(id);
     if (!classById) throw new Error(messageResponse.system.notFound);
-    if (classById.statusClass != StatusClass.assignedClass) throw new Error(messageResponse.class.classHasReceive);
-    if (dto.statusClass != StatusClass.assignedClass) return this.classRepository.findByIdAndUpdate(id, dto);
+    if (classById.statusClass == StatusClass.assignedClass) throw new Error(messageResponse.class.classHasReceive);
     return this.classRepository.findByIdAndUpdate(id, {
       statusClass: dto.statusClass,
       userReceiverId: null,
