@@ -4,6 +4,7 @@ import { CreateEduLevelDto } from './dto/create-edu-level.dto';
 import { UpdateEduLevelDto } from './dto/update-edu-level.dto';
 import { BaseFilter, Pagination, PaginationDto } from 'src/custom-decorator';
 import { ApiTags } from '@nestjs/swagger';
+import { Public } from '../auth/decorators';
 @ApiTags('Edu level')
 @Controller('edu-level')
 export class EduLevelController {
@@ -15,6 +16,7 @@ export class EduLevelController {
   }
 
   @Get()
+  @Public()
   @BaseFilter()
   findAll(@Pagination() pagination: PaginationDto, @Query('search') search: string) {
     return this.eduLevelService.findAll(pagination, search);

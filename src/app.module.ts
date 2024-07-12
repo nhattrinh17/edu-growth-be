@@ -15,6 +15,8 @@ import { JwtAuthGuard } from './modules/auth/guards';
 import { PermissionGuard } from './modules/auth/guards/permission.guard';
 import { LocationModule } from './modules/location/location.module';
 import { ClassModule } from './modules/class/class.module';
+import { UploadModule } from './modules/upload/upload.module';
+import { FirebaseModule } from 'nestjs-firebase';
 
 @Module({
   imports: [
@@ -45,12 +47,22 @@ import { ClassModule } from './modules/class/class.module';
         console.log(log); // Để theo dõi log kết nối trong quá trình phát triển
       },
     }),
+    // Firebase configuration
+    FirebaseModule.forRoot({
+      googleApplicationCredential: {
+        clientEmail: process.env.CLIENT_EMAIL,
+        privateKey: process.env.PRIVATE_KEY,
+        projectId: process.env.PROJECT_ID,
+      },
+      storageBucket: process.env.STORAGE_BUCKET,
+    }),
     UsersModule,
     AuthModule,
     SubjectModule,
     EduLevelModule,
     LocationModule,
     ClassModule,
+    UploadModule,
   ],
   controllers: [AppController],
   providers: [

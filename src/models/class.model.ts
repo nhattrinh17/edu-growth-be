@@ -41,6 +41,11 @@ export class ClassModel extends Model {
   })
   class: string;
 
+  @Column({
+    type: DataType.TEXT,
+  })
+  image: string;
+
   @ForeignKey(() => LocationModel)
   @Column({
     type: DataType.INTEGER,

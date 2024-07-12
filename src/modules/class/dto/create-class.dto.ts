@@ -12,6 +12,9 @@ export class CreateClassDto {
   @ApiProperty({ name: 'class', type: String, description: 'Lớp học' })
   class: string;
 
+  @ApiProperty({ name: 'image', type: String, description: 'Lớp học' })
+  image: string;
+
   @ApiProperty({ name: 'locationId', type: Number, description: 'Id địa điểm' })
   locationId: number;
 

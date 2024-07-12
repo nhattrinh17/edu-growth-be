@@ -32,7 +32,7 @@ export class ClassService {
     ]);
 
     if (checkDataValid.includes(0)) throw new Error(messageResponse.system.dataInvalid);
-    console.log('🚀 ~ ClassService ~ create ~ dto:', dto);
+
     return this.classRepository.create(dto);
   }
 
@@ -40,13 +40,22 @@ export class ClassService {
     const filter: any = {
       statusClass: StatusClass.stillEmpty,
     };
-    if (subjectId) filter.subjectId = { [Op.in]: subjectId };
-    if (eduLevelId) filter.eduLevelId = { [Op.in]: eduLevelId };
-    if (require) filter.require = { [Op.in]: require };
-    if (locationId) filter.locationId = { [Op.in]: locationId };
+    if (subjectId) {
+      filter.subjectId = subjectId?.length > 1 ? { [Op.in]: subjectId } : subjectId;
+    }
+    if (eduLevelId) {
+      filter.eduLevelId = eduLevelId?.length > 1 ? { [Op.in]: eduLevelId } : eduLevelId;
+    }
+    if (require) {
+      filter.require = require?.length > 1 ? { [Op.in]: require } : require;
+    }
+    if (locationId) {
+      filter.locationId = locationId?.length > 1 ? { [Op.in]: locationId } : locationId;
+    }
+    console.log('🚀 ~ ClassService ~ findAll ~ filter:', filter);
     return this.classRepository.findAll(filter, {
       ...pagination,
-      projection: ['id', 'class', 'locationNear', 'price', 'numberSessions', 'require'],
+      projection: ['id', 'class', 'image', 'locationNear', 'price', 'numberSessions', 'require', 'timeLearn', 'studentStatus'],
       include: [
         {
           model: SubjectModel,
@@ -60,13 +69,21 @@ export class ClassService {
   findAllCMS(pagination: PaginationDto, statusClass: number, subjectId: number[], eduLevelId: number[], require: number[], locationId: number[]) {
     const filter: any = {};
     if (statusClass >= 0) filter.statusClass = statusClass;
-    if (subjectId) filter.subjectId = { [Op.in]: subjectId };
-    if (eduLevelId) filter.eduLevelId = { [Op.in]: eduLevelId };
-    if (require) filter.require = { [Op.in]: require };
-    if (locationId) filter.locationId = { [Op.in]: locationId };
+    if (subjectId) {
+      filter.subjectId = subjectId?.length > 1 ? { [Op.in]: subjectId } : subjectId;
+    }
+    if (eduLevelId) {
+      filter.eduLevelId = eduLevelId?.length > 1 ? { [Op.in]: eduLevelId } : eduLevelId;
+    }
+    if (require) {
+      filter.require = require?.length > 1 ? { [Op.in]: require } : require;
+    }
+    if (locationId) {
+      filter.locationId = locationId?.length > 1 ? { [Op.in]: locationId } : locationId;
+    }
     return this.classRepository.findAll(filter, {
       ...pagination,
-      projection: ['id', 'statusClass', 'class', 'parentNumber', 'price', 'genderStudent', 'receivingFee'],
+      projection: ['id', 'statusClass', 'class', 'image', 'parentNumber', 'price', 'genderStudent', 'receivingFee'],
       include: [
         {
           model: UserModel,
@@ -88,7 +105,7 @@ export class ClassService {
   }
 
   findOne(id: number) {
-    return this.classRepository.findOneById(id, ['id', 'statusClass', 'class', 'locationNear', 'price', 'numberSessions', 'require', 'timeLearn', 'genderStudent', 'studentStatus', 'moreInfoStudent', 'receivingFee'], {
+    return this.classRepository.findOneById(id, ['id', 'statusClass', 'class', 'image', 'locationNear', 'price', 'numberSessions', 'require', 'timeLearn', 'genderStudent', 'studentStatus', 'moreInfoStudent', 'receivingFee'], {
       include: [
         {
           model: SubjectModel,
@@ -100,7 +117,7 @@ export class ClassService {
   }
 
   findOneForCMS(id: number) {
-    return this.classRepository.findOneById(id, ['id', 'statusClass', 'class', 'locationNear', 'locationReal', 'subjectId', 'subjectId', 'eduLevelId', 'locationId', 'price', 'numberSessions', 'require', 'timeLearn', 'genderStudent', 'studentStatus', 'moreInfoStudent', 'receivingFee'], {
+    return this.classRepository.findOneById(id, ['id', 'statusClass', 'class', 'image', 'locationNear', 'locationReal', 'subjectId', 'subjectId', 'eduLevelId', 'locationId', 'price', 'numberSessions', 'require', 'timeLearn', 'genderStudent', 'studentStatus', 'moreInfoStudent', 'receivingFee'], {
       include: [
         {
           model: UserModel,

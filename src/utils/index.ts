@@ -1,4 +1,7 @@
 export * from './helper';
+export * from './firebase-service';
+export * from './loadFiles.interceptor';
+
 export function generateSlug(str: string) {
   return str
     .normalize('NFD') // Chuẩn hóa Unicode
