@@ -55,7 +55,7 @@ export class ClassService {
     console.log('🚀 ~ ClassService ~ findAll ~ filter:', filter);
     return this.classRepository.findAll(filter, {
       ...pagination,
-      projection: ['id', 'class', 'image', 'locationNear', 'price', 'numberSessions', 'require', 'timeLearn', 'studentStatus'],
+      projection: ['id', 'class', 'image', 'locationNear', 'price', 'numberSessions', 'require', 'timeLearn', 'studentStatus', 'image'],
       include: [
         {
           model: SubjectModel,
@@ -154,6 +154,7 @@ export class ClassService {
       genderStudent: dto.genderStudent,
       studentStatus: dto.studentStatus,
       moreInfoStudent: dto.moreInfoStudent,
+      image: dto.image,
     });
   }
 

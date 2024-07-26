@@ -3,6 +3,7 @@ import { Request } from 'express';
 export * from './base-filter';
 export * from './userDataToken.decorator';
 export * from './pagination.decorator';
+export * from './fileUpload.decorator';
 
 // export function QueryBuilder(req: Request) {
 //   let filter = { ...req.query };

@@ -12,6 +12,7 @@ import { processENV, validateEnvironmentVars } from './config/configuration';
 import { HttpExceptionFilter } from './filters/bad-request.filter';
 import { setupSwagger } from './setup-swagger';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
+import fastyfyMultipart from '@fastify/multipart';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, new FastifyAdapter(), { cors: true });
@@ -19,6 +20,12 @@ async function bootstrap() {
   // app.enable('trust proxy');// only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(helmet());
   app.setGlobalPrefix('/api'); //use api as global prefix if you don't have subdomain
+
+  app.register(fastyfyMultipart as any, {
+    limits: {
+      fileSize: 10 * 1024 * 1024, // Giới hạn kích thước tệp là 100MB
+    },
+  });
 
   // app.register(fastifyCors, {
   //   credentials: true,
