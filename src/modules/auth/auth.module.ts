@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Helper } from 'src/utils';
 import { JwtStrategy } from './strategies';
-import { RedisService } from '../cache/redis.service';
+// import { RedisService } from '../cache/redis.service';
 import { UsersService } from '../users/users.service';
 import { UsersModule } from '../users/users.module';
 
@@ -24,6 +24,6 @@ import { UsersModule } from '../users/users.module';
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, RedisService, Helper, JwtStrategy, UsersService],
+  providers: [AuthService, Helper, JwtStrategy, UsersService],
 })
 export class AuthModule {}

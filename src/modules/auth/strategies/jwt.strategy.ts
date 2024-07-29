@@ -13,7 +13,7 @@ interface JwtPayload {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(private userService: UsersService, private readonly cacheService: RedisService) {
+  constructor(private userService: UsersService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -22,17 +22,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: JwtPayload) {
-    let user = JSON.parse(await this.cacheService.get(`${process.env.APP_ID}:${process.env.APP_NAME}:${payload.id}`));
+    const user = await this.userService.findOne(payload.id);
 
-    if (!user) {
-      user = await this.userService.findOne(payload.id);
-      if (user) {
-        user = JSON.parse(JSON.stringify(user));
-        await this.cacheService.set(`${process.env.APP_ID}:${process.env.APP_NAME}:${payload.id}`, JSON.stringify(user), 60 * 30);
-      } else {
-        return null;
-      }
-    }
     if (user && user.status !== Status.Active) return null;
     return {
       ...user,
